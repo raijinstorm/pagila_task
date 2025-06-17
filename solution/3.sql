@@ -1,4 +1,3 @@
---Spent on a film
 WITH film_revenue AS (
 SELECT 
 	inventory.film_id, 
