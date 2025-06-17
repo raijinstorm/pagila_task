@@ -1,10 +1,7 @@
-WITH ranked_actors AS (
+WITH selected_actors AS (
 SELECT 
 	actor.first_name || ' ' || actor.last_name AS "full_name",
-	RANK() OVER (
-		ORDER BY
-			COUNT(film_actor.film_id) DESC
-	) as "rank"
+	COUNT(film_actor.film_id) as cnt
 FROM 
 	film_actor
 	JOIN film_category ON film_actor.film_id = film_category.film_id
@@ -14,6 +11,16 @@ WHERE
 	category.name = 'Children'
 GROUP BY 
 	"full_name"
+),
+
+ranked_actors AS (
+	SELECT 
+		full_name,
+		RANK() OVER(
+			ORDER BY cnt DESC
+		) as "rank"
+	FROM
+		selected_actors
 )
 
 SELECT 
@@ -21,5 +28,5 @@ SELECT
 FROM 
 	ranked_actors
 WHERE 
-	"rank" = 1;
+	"rank" <= 3;
 

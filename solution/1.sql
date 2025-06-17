@@ -10,4 +10,4 @@ ON
 GROUP BY 
 	category.name
 ORDER BY 
-	"Number of films";
+	"Number of films" DESC;
